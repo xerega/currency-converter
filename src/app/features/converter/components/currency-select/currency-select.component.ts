@@ -1,8 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  WritableSignal,
+  Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
@@ -14,8 +15,9 @@ import {
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
-import { Currency } from '../../models/currency.model';
 import { CurrencyService } from '../../services/currency.service';
+
+import { Currency } from '../../models/currency.model';
 
 const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
   `${currency.isoCode} ${currency.name}`;
@@ -36,7 +38,8 @@ const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
   providers: [tuiItemsHandlersProvider({ stringify: STRINGIFY_ITEM })],
 })
 export class CurrencySelectComponent {
-  @Input() currency!: WritableSignal<Currency | null>;
+  @Input() currency!: Currency | null;
+  @Output() currencyChange = new EventEmitter<Currency | null>();
 
   items = this.currencyService.getCurrencies();
 
@@ -47,6 +50,6 @@ export class CurrencySelectComponent {
   }
 
   onCurrencyChange(newCurrency: Currency | null) {
-    this.currency.set(newCurrency);
+    this.currencyChange.emit(newCurrency);
   }
 }

@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
-  WritableSignal,
+  Output,
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { TuiInputNumberModule } from '@taiga-ui/kit';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'converter-input',
@@ -22,10 +24,11 @@ import { TuiInputNumberModule } from '@taiga-ui/kit';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AmountInputComponent {
-  @Input() amount!: WritableSignal<number | null>;
+  @Input() amount!: number | null;
   @Input() disabled!: boolean;
+  @Output() amountChange = new EventEmitter<number | null>();
 
-  onAmountChange(newAmount: number) {
-    this.amount.set(newAmount);
+  onAmountChange(newAmount: number | null) {
+    this.amountChange.emit(newAmount);
   }
 }
