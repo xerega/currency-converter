@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import {
   CurrencyConversionResponse,
   CurrencyListResponse,
 } from '../models/currency-api.model';
+import { Currency } from '../models/currency.model';
 
 import { environment } from '../../../../environments/environment';
 
@@ -18,15 +19,15 @@ export class CurrencyApiService {
 
   constructor(private http: HttpClient) {}
 
-  getCurrenciesList(): Observable<CurrencyListResponse> {
+  getCurrenciesList(): Observable<Currency[]> {
     const searchParams = new URLSearchParams({
       api_key: this.apiKey,
       format: 'json',
     });
 
-    return this.http.get<CurrencyListResponse>(
-      `${this.baseUrl}/list?${searchParams}`
-    );
+    return this.http
+      .get<CurrencyListResponse>(`${this.baseUrl}/list?${searchParams}`)
+      .pipe(map((response) => this.transformCurrenciesListResponse(response)));
   }
 
   getCurrencyConversion(
@@ -53,5 +54,18 @@ export class CurrencyApiService {
     return this.http.get<
       CurrencyConversionResponse<typeof fromIsoCode, typeof toIsoCode>
     >(`${this.baseUrl}/historical/${formattedDate}?${searchParams}`);
+  }
+
+  transformCurrenciesListResponse(response: CurrencyListResponse): Currency[] {
+    const currencies = Object.entries(response.currencies).map(
+      (currency): Currency => {
+        return {
+          isoCode: currency[0],
+          name: currency[1],
+        };
+      }
+    );
+
+    return currencies;
   }
 }
