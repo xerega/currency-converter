@@ -9,6 +9,8 @@ import { CurrencyService } from './services/currency.service';
 
 import { Currency } from './models/currency.model';
 
+import { debouncedSignal } from '../../../helpers/debounce-signal.helper';
+
 @Component({
   selector: 'app-converter',
   standalone: true,
@@ -22,6 +24,8 @@ export class ConverterComponent implements OnInit {
 
   amountFrom = signal<number | null>(null);
   amountTo = signal<number | null>(null);
+  debouncedAmountFrom = debouncedSignal(this.amountFrom, 500);
+  debouncedAmountTo = debouncedSignal(this.amountTo, 500);
 
   date = signal<Date | null>(null);
 
