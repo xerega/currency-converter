@@ -120,8 +120,18 @@ export class ConverterComponent implements OnInit, OnDestroy {
   onCurrencyChange(newCurrency: Currency | null, type: 'from' | 'to') {
     if (type === 'from') {
       this.currencyFrom = newCurrency;
+
+      if (newCurrency === null) {
+        this.amountFrom.next(null);
+        this.amountFromValue = null;
+      }
     } else {
       this.currencyTo = newCurrency;
+
+      if (newCurrency === null) {
+        this.amountTo.next(null);
+        this.amountToValue = null;
+      }
     }
 
     this.convert('from');
