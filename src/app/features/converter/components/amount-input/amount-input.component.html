@@ -1,0 +1,12 @@
+<tui-input-number
+  [(ngModel)]="amount"
+  (ngModelChange)="onAmountChange($event)"
+  [min]="0"
+  [precision]="2"
+  decimal="not-zero"
+  [tuiTextfieldCleaner]="true"
+  [tuiTextfieldLabelOutside]="true"
+  [disabled]="disabled"
+>
+  Input amount
+</tui-input-number>

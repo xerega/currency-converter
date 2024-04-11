@@ -1,4 +1,13 @@
 <converter-select [currency]="currencyFrom"></converter-select>
 <converter-select [currency]="currencyTo"></converter-select>
 
+<converter-input
+  [amount]="amountFrom"
+  [disabled]="!currencyFrom()"
+></converter-input>
+<converter-input
+  [amount]="amountTo"
+  [disabled]="!currencyTo()"
+></converter-input>
+
 <converter-date [date]="date"></converter-date>
