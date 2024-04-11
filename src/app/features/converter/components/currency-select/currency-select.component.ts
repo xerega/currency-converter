@@ -15,6 +15,7 @@ import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
 import { Currency } from '../../models/currency.model';
+import { CurrencyService } from '../../services/currency.service';
 
 const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
   `${currency.isoCode} ${currency.name}`;
@@ -37,9 +38,9 @@ const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
 export class CurrencySelectComponent {
   @Input() currency!: WritableSignal<Currency | null>;
 
-  constructor() {}
+  items = this.currencyService.getCurrencies();
 
-  items: Currency[] = [];
+  constructor(private currencyService: CurrencyService) {}
 
   getUrl(isoCode: string) {
     return `https://flagcdn.com/w40/${isoCode.slice(0, 2).toLowerCase()}.png`;
