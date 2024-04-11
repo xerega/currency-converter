@@ -17,6 +17,8 @@ import { TuiTextfieldControllerModule } from '@taiga-ui/core';
 
 import { CurrencyService } from '../../services/currency.service';
 
+import { WhiteFlagFallbackDirective } from '../../directives/white-flag-fallback.directive';
+
 import { Currency } from '../../models/currency.model';
 
 const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
@@ -33,6 +35,7 @@ const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
     TuiDataListWrapperModule,
     TuiTextfieldControllerModule,
     TuiFilterByInputPipeModule,
+    WhiteFlagFallbackDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [tuiItemsHandlersProvider({ stringify: STRINGIFY_ITEM })],

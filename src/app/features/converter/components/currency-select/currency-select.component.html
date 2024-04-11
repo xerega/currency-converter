@@ -16,7 +16,7 @@
 
 <ng-template #currencyContent let-item>
   <div class="select-container">
-    <img [src]="getUrl(item.isoCode)" [alt]="item.name" />
+    <img [src]="getUrl(item.isoCode)" [alt]="item.name" appWhiteFlagFallback />
     <span class="currency-iso-code">{{ item.isoCode || "" }}</span>
     <span class="currency-name">{{ item.name || "" }}</span>
   </div>
