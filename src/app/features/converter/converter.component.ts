@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
   BehaviorSubject,
   Subscription,
   debounceTime,
   distinctUntilChanged,
 } from 'rxjs';
+import { TuiDialogModule, TuiDialogService } from '@taiga-ui/core';
 
 import { CurrencySelectComponent } from './components/currency-select/currency-select.component';
 import { AmountInputComponent } from './components/amount-input/amount-input.component';
@@ -18,7 +19,12 @@ import { Currency } from './models/currency.model';
 @Component({
   selector: 'app-converter',
   standalone: true,
-  imports: [CurrencySelectComponent, AmountInputComponent, DateComponent],
+  imports: [
+    CurrencySelectComponent,
+    AmountInputComponent,
+    DateComponent,
+    TuiDialogModule,
+  ],
   templateUrl: './converter.component.html',
   styleUrl: './converter.component.scss',
 })
@@ -39,13 +45,17 @@ export class ConverterComponent implements OnInit, OnDestroy {
 
   constructor(
     private currencyApiService: CurrencyApiService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    @Inject(TuiDialogService) private readonly dialogs: TuiDialogService
   ) {}
 
   ngOnInit(): void {
     this.currencyApiService.getCurrenciesList().subscribe({
       next: (response) => {
         this.currencyService.setCurrencies(response);
+      },
+      error: (error) => {
+        this.openDialog(error.error.error.message);
       },
     });
 
@@ -100,6 +110,9 @@ export class ConverterComponent implements OnInit, OnDestroy {
               );
             }
           },
+          error: (error) => {
+            this.openDialog(error.error.error.message);
+          },
         });
     }
   }
@@ -128,5 +141,13 @@ export class ConverterComponent implements OnInit, OnDestroy {
     this.date = newDate;
 
     this.convert('from');
+  }
+
+  openDialog(message: string) {
+    this.dialogs
+      .open(message, {
+        label: 'Something went wrong :(',
+      })
+      .subscribe();
   }
 }
