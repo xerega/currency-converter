@@ -10,7 +10,8 @@
   <tui-data-list-wrapper
     *tuiDataList
     [itemContent]="currencyContent"
-    [items]="items() | tuiFilterByInput"
+    [items]="[popularCurrencies, currencies] | tuiFilterByInput"
+    [labels]="['Popular', 'All']"
   ></tui-data-list-wrapper>
 </tui-combo-box>
 

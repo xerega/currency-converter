@@ -3,6 +3,8 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
+  OnInit,
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +16,7 @@ import {
 } from '@taiga-ui/kit';
 import { TuiStringHandler } from '@taiga-ui/cdk';
 import { TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { Subscription } from 'rxjs';
 
 import { CurrencyService } from '../../services/currency.service';
 
@@ -40,19 +43,45 @@ const STRINGIFY_ITEM: TuiStringHandler<Currency> = (currency: Currency) =>
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [tuiItemsHandlersProvider({ stringify: STRINGIFY_ITEM })],
 })
-export class CurrencySelectComponent {
+export class CurrencySelectComponent implements OnInit, OnDestroy {
   @Input() currency!: Currency | null;
   @Output() currencyChange = new EventEmitter<Currency | null>();
 
-  items = this.currencyService.getCurrencies();
+  currencies: Currency[] = [];
+  popularCurrencies: Currency[] = [];
+
+  private currencySubscription!: Subscription;
+  private popularCurrenciesSubscription!: Subscription;
 
   constructor(private currencyService: CurrencyService) {}
+
+  ngOnInit(): void {
+    this.currencySubscription = this.currencyService
+      .getCurrenciesObservable()
+      .subscribe((currencies) => {
+        this.currencies = currencies;
+      });
+
+    this.popularCurrenciesSubscription = this.currencyService.popularCurrencies
+      .asObservable()
+      .subscribe(() => {
+        this.popularCurrencies =
+          this.currencyService.getMostPopularCurrencies(5);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.currencySubscription.unsubscribe();
+    this.popularCurrenciesSubscription.unsubscribe();
+  }
 
   getUrl(isoCode: string) {
     return `https://flagcdn.com/w40/${isoCode.slice(0, 2).toLowerCase()}.png`;
   }
 
   onCurrencyChange(newCurrency: Currency | null) {
+    this.currencyService.increaseCurrencyPopularity(newCurrency);
+
     this.currencyChange.emit(newCurrency);
   }
 }
