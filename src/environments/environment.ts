@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
   currencyApiBaseUrl: 'https://api.getgeoapi.com/v2/currency',
-  currencyApiKey: '0d91bd3053f21171d01d0b6d8afdd63459f68842',
+  currencyApiKey: 'fa9c33af03c96724f8b48cd7c3930e3b86867eca',
   popularCurrenciesLS: 'CONVERTOR_POPULAR_CURRENCIES',
 };
