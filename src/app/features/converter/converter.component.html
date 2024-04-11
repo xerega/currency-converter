@@ -1,34 +1,37 @@
 <div class="container">
-  <div class="currency-container">
-    <converter-select
-      [currency]="currencyFrom"
-      (currencyChange)="onCurrencyChange($event, 'from')"
-    ></converter-select>
+  <h1 class="title">Currency Converter</h1>
+  <div class="converter-container">
+    <div class="currency-container">
+      <converter-select
+        [currency]="currencyFrom"
+        (currencyChange)="onCurrencyChange($event, 'from')"
+      ></converter-select>
 
-    <converter-input
-      [amount]="amountFromValue"
-      [disabled]="!currencyFrom"
-      (amountChange)="onAmountChange($event, 'from')"
-    ></converter-input>
-  </div>
+      <converter-input
+        [amount]="amountFromValue"
+        [disabled]="!currencyFrom"
+        (amountChange)="onAmountChange($event, 'from')"
+      ></converter-input>
+    </div>
 
-  <div class="currency-container">
-    <converter-select
-      [currency]="currencyTo"
-      (currencyChange)="onCurrencyChange($event, 'to')"
-    ></converter-select>
+    <div class="currency-container">
+      <converter-select
+        [currency]="currencyTo"
+        (currencyChange)="onCurrencyChange($event, 'to')"
+      ></converter-select>
 
-    <converter-input
-      [amount]="amountToValue"
-      [disabled]="!currencyTo"
-      (amountChange)="onAmountChange($event, 'to')"
-    ></converter-input>
-  </div>
+      <converter-input
+        [amount]="amountToValue"
+        [disabled]="!currencyTo"
+        (amountChange)="onAmountChange($event, 'to')"
+      ></converter-input>
+    </div>
 
-  <div class="date-container">
-    <converter-date
-      [date]="date"
-      (dateChange)="onDateChange($event)"
-    ></converter-date>
+    <div class="date-container">
+      <converter-date
+        [date]="date"
+        (dateChange)="onDateChange($event)"
+      ></converter-date>
+    </div>
   </div>
 </div>

@@ -2,8 +2,19 @@
   max-width: 1200px;
 
   margin: 0 auto;
-  padding: 10px;
+  padding: 0 10px;
+}
 
+.title {
+  display: flex;
+  justify-content: center;
+
+  text-align: center;
+  font-size: 42px;
+  line-height: 36px;
+}
+
+.converter-container {
   display: grid;
   grid-template-columns: 1;
   grid-template-rows: repeat(3, 1fr);
