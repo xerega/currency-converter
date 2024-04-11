@@ -1,24 +1,34 @@
-<converter-select
-  [currency]="currencyFrom"
-  (currencyChange)="onCurrencyChange($event, 'from')"
-></converter-select>
-<converter-select
-  [currency]="currencyTo"
-  (currencyChange)="onCurrencyChange($event, 'to')"
-></converter-select>
+<div class="container">
+  <div class="currency-container">
+    <converter-select
+      [currency]="currencyFrom"
+      (currencyChange)="onCurrencyChange($event, 'from')"
+    ></converter-select>
 
-<converter-input
-  [amount]="amountFromValue"
-  [disabled]="!currencyFrom"
-  (amountChange)="onAmountChange($event, 'from')"
-></converter-input>
-<converter-input
-  [amount]="amountToValue"
-  [disabled]="!currencyTo"
-  (amountChange)="onAmountChange($event, 'to')"
-></converter-input>
+    <converter-input
+      [amount]="amountFromValue"
+      [disabled]="!currencyFrom"
+      (amountChange)="onAmountChange($event, 'from')"
+    ></converter-input>
+  </div>
 
-<converter-date
-  [date]="date"
-  (dateChange)="onDateChange($event)"
-></converter-date>
+  <div class="currency-container">
+    <converter-select
+      [currency]="currencyTo"
+      (currencyChange)="onCurrencyChange($event, 'to')"
+    ></converter-select>
+
+    <converter-input
+      [amount]="amountToValue"
+      [disabled]="!currencyTo"
+      (amountChange)="onAmountChange($event, 'to')"
+    ></converter-input>
+  </div>
+
+  <div class="date-container">
+    <converter-date
+      [date]="date"
+      (dateChange)="onDateChange($event)"
+    ></converter-date>
+  </div>
+</div>
